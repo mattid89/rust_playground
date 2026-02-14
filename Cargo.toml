@@ -1,13 +1,43 @@
 [package]
-name = "hello_rust"
+name = "aws-key-rotator"
 version = "0.1.0"
 edition = "2021"
+description = "AWS access key rotator - automatically rotate IAM credentials"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "aws-key-rotator"
+path = "src/main.rs"
 
 [dependencies]
-tiberius = { version = "0.12.2" , features = ["all"] }
-config = { version = "0.14.0", features = [] }
-anyhow = "1.0.75"
-tokio = { version = "1.35.0", features = ["rt", "rt-multi-thread", "macros"] }
-tokio-util = "0.7.10"
+# AWS SDK - comunicación con IAM
+aws-config = "1.5"
+aws-sdk-iam = "1.51"
+
+# Async runtime - equivalente a event loop de Node.js
+tokio = { version = "1", features = ["full"] }
+
+# CLI - parseo de argumentos (como commander/yargs en Node.js)
+clap = { version = "4", features = ["derive"] }
+
+# Serialización - como JSON.parse/stringify pero para cualquier formato
+serde = { version = "1", features = ["derive"] }
+
+# Fechas - como moment.js/dayjs en Node.js
+chrono = { version = "0.4", features = ["serde"] }
+
+# Manejo de errores ergonómico - simplifica Result<T, E>
+anyhow = "1"
+thiserror = "2"
+
+# Logging - como winston/pino en Node.js
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Colores en terminal - como chalk en Node.js
+colored = "2"
+
+# Tablas en terminal - para mostrar estado de credenciales
+tabled = "0.17"
+
+# Escritura atómica de archivos
+tempfile = "3"
